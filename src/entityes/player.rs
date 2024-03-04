@@ -34,17 +34,12 @@ impl Entity for Player {
     }
 
     fn render(&mut self, canvas: &mut Canvas<sdl2::video::Window>, textures: &HashMap<TexturesMap, Result<Texture<'_>, String>>) -> Result<(), Errors> {
-        self.frames =  Some(vec![
-                Rect::new(0, 0, 16, 16),
-                Rect::new(16, 16, 32, 32),
-                Rect::new(32, 32, 64, 64),
-            ]);
         let texture = textures.get(&TexturesMap::Player).unwrap().as_ref();
         canvas
             .copy(
                 &texture.unwrap(),
-                Some(<Option<Vec<Rect>> as Clone>::clone(&self.frames).unwrap()[1]),
-                <Option<Vec<Rect>> as Clone>::clone(&self.frames).unwrap()[1],
+                None,
+                Rect::new(self.position.x, self.position.y, 64, 32)
             )
             .unwrap();
         Ok(())

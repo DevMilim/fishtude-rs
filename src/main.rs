@@ -15,7 +15,7 @@ fn main() {
     let video_subsystem = sdl_context.video().unwrap();
 
     let window = video_subsystem
-        .window("Fistude", 160, 144)
+        .window("Fistude", 160*3, 144*3)
         .position_centered()
         .opengl()
         .build()
@@ -26,8 +26,8 @@ fn main() {
         .present_vsync()
         .build()
         .unwrap();
-    
-    canvas.set_logical_size(160, 144);
+
+    let _ = canvas.set_logical_size(160, 144);
     canvas.set_integer_scale(true).unwrap();
     canvas.set_blend_mode(sdl2::render::BlendMode::Blend);
     canvas.set_draw_color(Color::RGB(255, 255, 255));
@@ -37,7 +37,7 @@ fn main() {
     texture_map.insert(TexturesMap::Player, Ok(renderer.load_texture("assets/player.bmp").expect("erro")));
 
     let mut player = Player::new(200, 200);
-    player.vel = 5;
+    player.vel = 1;
 
     canvas.clear();
     canvas.present();
@@ -47,6 +47,7 @@ fn main() {
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     'game_loop: loop {
+        canvas.present();
         canvas.clear();
         for event in event_pump.poll_iter() {
             match event {
@@ -92,7 +93,6 @@ fn main() {
             last_fps_update = Instant::now();
         }
         render_entityes!(canvas, texture_map, player);
-        canvas.present();
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 30));
     }
 }
