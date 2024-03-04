@@ -3,7 +3,7 @@ extern crate sdl2;
 mod entityes;
 mod utils;
 
-use sdl2::{event::Event, image::LoadTexture, keyboard::Keycode, pixels::Color, render::Texture};
+use sdl2::{event::Event, image::LoadTexture, keyboard::Keycode, pixels::Color, rect::Rect, render::Texture};
 use std::{collections::HashMap, time::{Duration, Instant}};
 use utils::{Entity, TexturesMap};
 use entityes::player::Player;
@@ -34,9 +34,10 @@ fn main() {
 
     let renderer = canvas.texture_creator();
     let mut texture_map: HashMap<TexturesMap, Result<Texture<'_>, String>> = HashMap::new();
+    texture_map.insert(TexturesMap::Background, Ok(renderer.load_texture("assets/background.bmp").expect("erro")));
     texture_map.insert(TexturesMap::Player, Ok(renderer.load_texture("assets/player.bmp").expect("erro")));
 
-    let mut player = Player::new(0, 50);
+    let mut player = Player::new(0, 24);
     player.vel = 2;
 
     canvas.clear();
@@ -49,6 +50,16 @@ fn main() {
     'game_loop: loop {
         canvas.present();
         canvas.clear();
+
+        let texture = texture_map.get(&TexturesMap::Background).unwrap().as_ref();
+        canvas
+            .copy(
+                &texture.unwrap(),
+                Rect::new(0,0,160,144),
+                Rect::new(0, 0, 160, 144),
+            )
+            .unwrap();
+
         for event in event_pump.poll_iter() {
             match event {
                 Event::Quit { .. }

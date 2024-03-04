@@ -33,5 +33,15 @@ pub struct Sprite {
 
 #[derive(PartialEq, Eq, Hash, Clone)]
 pub enum TexturesMap{
+    Background,
     Player
+}
+
+
+pub fn change_sprite(size_x: u32, size_y: u32, amount_x: u8, amount_y: u8, sprite_index: u8) -> Rect{
+    if amount_x < (size_x / size_x) as u8{
+
+    }
+
+    Rect::new(0, 0, size_x, size_y)
 }
