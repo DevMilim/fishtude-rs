@@ -1,7 +1,9 @@
-use engine::core::errors::Errors;
-use sdl2::{image::LoadTexture, rect::Rect, render::Canvas, EventPump};
+use std::collections::HashMap;
 
-use crate::utils::{Entity, Position, Sprite};
+use engine::core::errors::Errors;
+use sdl2::{image::LoadTexture, rect::Rect, render::{Canvas, Texture}, EventPump};
+
+use crate::utils::{Entity, Position, Sprite, TexturesMap};
 
 pub enum PlayerState {
     Default,
@@ -9,15 +11,15 @@ pub enum PlayerState {
     Fishing,
     Back,
     MoveLeft,
-    MoveRight
+    MoveRight,
 }
 
 pub struct Player {
-    state: PlayerState,
+    pub state: PlayerState,
     pub gold: i32,
-    position: Position,
-    sprite: Option<Sprite>,
-    pub vel: i32
+    pub position: Position,
+    pub frames: Option<Vec<Rect>>,
+    pub vel: i32,
 }
 
 impl Entity for Player {
@@ -26,39 +28,44 @@ impl Entity for Player {
             state: PlayerState::Default,
             gold: 14,
             position: Position { x: x, y: y },
-            sprite: None,
-            vel: 0
+            frames: None,
+            vel: 0,
         }
     }
 
-    fn render(&mut self, canvas: &mut Canvas<sdl2::video::Window>) -> Result<(), Errors> {
-        let texture_creator = canvas.texture_creator();
-        let texture = texture_creator.load_texture("./assets/player.bmp").unwrap();
+    fn render(&mut self, canvas: &mut Canvas<sdl2::video::Window>, textures: &HashMap<TexturesMap, Result<Texture<'_>, String>>) -> Result<(), Errors> {
+        self.frames =  Some(vec![
+                Rect::new(0, 0, 16, 16),
+                Rect::new(16, 16, 32, 32),
+                Rect::new(32, 32, 64, 64),
+            ]);
+        let texture = textures.get(&TexturesMap::Player).unwrap().as_ref();
         canvas
-            .copy(&texture, None, Rect::new(self.position.x, self.position.y, 62, 84))
+            .copy(
+                &texture.unwrap(),
+                Some(<Option<Vec<Rect>> as Clone>::clone(&self.frames).unwrap()[1]),
+                <Option<Vec<Rect>> as Clone>::clone(&self.frames).unwrap()[1],
+            )
             .unwrap();
-
         Ok(())
     }
-    
+
     fn set_state(&mut self, state: PlayerState) -> Result<(), Errors> {
         self.state = state;
         Ok(())
     }
     fn update(&mut self) -> Result<(), Errors> {
         match self.state {
-            PlayerState::Default => {
-
-            },
-            PlayerState::Mechanic => {},
-            PlayerState::Fishing => {},
-            PlayerState::Back => {},
+            PlayerState::Default => {}
+            PlayerState::Mechanic => {}
+            PlayerState::Fishing => {}
+            PlayerState::Back => {}
             PlayerState::MoveLeft => {
                 self.position.x -= self.vel;
-            },
+            }
             PlayerState::MoveRight => {
                 self.position.x += self.vel;
-            },
+            }
         }
         Ok(())
     }

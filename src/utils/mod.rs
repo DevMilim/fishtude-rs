@@ -1,13 +1,15 @@
-use sdl2::{render::Canvas, video::Window};
+use std::collections::HashMap;
 
-use engine::core::errors::Errors;
+use sdl2::{rect::Rect, render::{Canvas, Texture}, video::Window};
+
 use crate::entityes::player::PlayerState;
+use engine::core::errors::Errors;
 
 #[macro_export]
 macro_rules! render_entityes {
-    ($canvas:expr, $event_pump:expr, $($entity:expr),*) => {
+    ($canvas:expr, $texture_map:expr,$($entity:expr),*) => {
         $(
-            let _ = $entity.render(&mut $canvas);
+            let _ = $entity.render(&mut $canvas, &$texture_map);
             let _ = $entity.update();
         )*
     };
@@ -15,7 +17,7 @@ macro_rules! render_entityes {
 
 pub trait Entity {
     fn new(x: i32, y: i32) -> Self;
-    fn render(&mut self, canvas: &mut Canvas<Window>) -> Result<(), Errors>;
+    fn render(&mut self, canvas: &mut Canvas<Window>, textures: &HashMap<TexturesMap, Result<Texture<'_>, String>>) -> Result<(), Errors>;
     fn set_state(&mut self, state: PlayerState) -> Result<(), Errors>;
     fn update(&mut self) -> Result<(), Errors>;
 }
@@ -26,15 +28,10 @@ pub struct Position {
 }
 
 pub struct Sprite {
-    texture: Option<String>,
-    frame: Option<u8>,
+    pub frames: Option<Vec<Rect>>,
 }
 
-impl Sprite {
-    fn new() -> Self {
-        Sprite {
-            texture: None,
-            frame: None,
-        }
-    }
+#[derive(PartialEq, Eq, Hash, Clone)]
+pub enum TexturesMap{
+    Player
 }
