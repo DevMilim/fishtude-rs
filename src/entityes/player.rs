@@ -17,7 +17,7 @@ pub struct Player {
     pub gold: i32,
     position: Position,
     sprite: Option<Sprite>,
-    vel: i32
+    pub vel: i32
 }
 
 impl Entity for Player {

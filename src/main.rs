@@ -28,6 +28,8 @@ fn main() {
     canvas.present();
 
     let mut player = Player::new(200, 200);
+    player.vel = 5;
+
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     'game_loop: loop {
