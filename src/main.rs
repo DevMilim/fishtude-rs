@@ -17,6 +17,7 @@ fn main() {
     let window = video_subsystem
         .window("Fistude", 160*3, 144*3)
         .position_centered()
+        .fullscreen_desktop()
         .opengl()
         .build()
         .unwrap();
@@ -38,8 +39,8 @@ fn main() {
     texture_map.insert(TexturesMap::Player, Ok(renderer.load_texture("assets/player.bmp").expect("erro")));
 
     let mut player = Player::new(0, 24);
-    player.vel = 2;
-
+    player.vel = 1;
+    
     canvas.clear();
     canvas.present();
 

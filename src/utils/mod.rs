@@ -38,10 +38,9 @@ pub enum TexturesMap{
 }
 
 
-pub fn change_sprite(size_x: u32, size_y: u32, amount_x: u8, amount_y: u8, sprite_index: u8) -> Rect{
-    if amount_x < (size_x / size_x) as u8{
+pub fn change_sprite(size_x: u32, size_y: u32, amount_x: i32, amount_y: i32, sprite_index: i32) -> Rect{
 
-    }
-
-    Rect::new(0, 0, size_x, size_y)
+    Rect::new(0 * sprite_index, 0 * sprite_index, size_x, size_y)
 }
+
+

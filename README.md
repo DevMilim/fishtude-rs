@@ -2,16 +2,16 @@
 
 - Projeto de reescritura do projeto [fishtude](https://github.com/FelipeIzolan/fishtude) de @FelipeIzolan em rust
 
-## Development 👨‍💻
+## Development
 
-- [ ] Player
+- [ x ] Player
     - [ ] Movement
     - [ ] Fishing
     - [ ] Gold
     - [ ] Skill-Tree
 
 - [ ] Fish
-    - [] Movement
+    - [ ] Movement
         - [ ] Default
         - [ ] Wave
         - [ ] Back
