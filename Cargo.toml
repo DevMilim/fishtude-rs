@@ -1,0 +1,13 @@
+workspace = { members = ["app"] }
+[package]
+name = "fishtude"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+sdl2 = {version = "0.36.0", features = ["image"]}
+engine = {path = "./engine"}
+
+workspace = { members = ["engine"] }
