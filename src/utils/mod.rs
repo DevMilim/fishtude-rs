@@ -9,8 +9,8 @@ use engine::core::errors::Errors;
 macro_rules! render_entityes {
     ($canvas:expr, $texture_map:expr,$($entity:expr),*) => {
         $(
-            let _ = $entity.render(&mut $canvas, &$texture_map);
             let _ = $entity.update();
+            let _ = $entity.render(&mut $canvas, &$texture_map);
         )*
     };
 }

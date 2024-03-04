@@ -38,8 +38,8 @@ impl Entity for Player {
         canvas
             .copy(
                 &texture.unwrap(),
-                None,
-                Rect::new(self.position.x, self.position.y, 64, 32)
+                Rect::new(0,0,16,16),
+                Rect::new(self.position.x, self.position.y, 16, 16),
             )
             .unwrap();
         Ok(())

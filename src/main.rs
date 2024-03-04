@@ -36,8 +36,8 @@ fn main() {
     let mut texture_map: HashMap<TexturesMap, Result<Texture<'_>, String>> = HashMap::new();
     texture_map.insert(TexturesMap::Player, Ok(renderer.load_texture("assets/player.bmp").expect("erro")));
 
-    let mut player = Player::new(200, 200);
-    player.vel = 1;
+    let mut player = Player::new(0, 50);
+    player.vel = 2;
 
     canvas.clear();
     canvas.present();
