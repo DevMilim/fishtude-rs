@@ -5,7 +5,7 @@
 ## Development
 
 - [x] Player
-    - [ ] Movement
+    - [x] Movement
     - [ ] Fishing
     - [ ] Gold
     - [ ] Skill-Tree
