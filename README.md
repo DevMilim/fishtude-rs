@@ -1,6 +1,6 @@
 # Fishtude-rs
 
-- Projeto de reescrituda do projeto [fishtude](https://github.com/FelipeIzolan/fishtude) de @FelipeIzolan em rust
+- Projeto de reescritura do projeto [fishtude](https://github.com/FelipeIzolan/fishtude) de @FelipeIzolan em rust
 
 ## Development 👨‍💻
 
