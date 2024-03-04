@@ -40,15 +40,20 @@ fn main() {
 
     let mut player = Player::new(0, 24);
     player.vel = 1;
-    
+
     canvas.clear();
     canvas.present();
 
     let mut fps_counter = 0;
     let mut last_fps_update = Instant::now();
 
+    let target_fps: u32 = 30;
+    let frame_duration = Duration::new(0, 1_000_000_000 / target_fps);
+
     let mut event_pump = sdl_context.event_pump().unwrap();
+
     'game_loop: loop {
+        let delta_time_start = std::time::Instant::now();
         canvas.present();
         canvas.clear();
 
@@ -105,6 +110,10 @@ fn main() {
             last_fps_update = Instant::now();
         }
         render_entityes!(canvas, texture_map, player);
-        ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 30));
+
+        let elapsed_time = delta_time_start.elapsed();
+        if elapsed_time < frame_duration {
+            std::thread::sleep(frame_duration - elapsed_time);
+        }
     }
 }
