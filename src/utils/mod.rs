@@ -1,6 +1,10 @@
 use std::collections::HashMap;
 
-use sdl2::{rect::Rect, render::{Canvas, Texture}, video::Window};
+use sdl2::{
+    rect::Rect,
+    render::{Canvas, Texture},
+    video::Window,
+};
 
 use crate::entityes::player::PlayerState;
 use engine::core::errors::Errors;
@@ -17,7 +21,11 @@ macro_rules! render_entityes {
 
 pub trait Entity {
     fn new(x: i32, y: i32) -> Self;
-    fn render(&mut self, canvas: &mut Canvas<Window>, textures: &HashMap<TexturesMap, Result<Texture<'_>, String>>) -> Result<(), Errors>;
+    fn render(
+        &mut self,
+        canvas: &mut Canvas<Window>,
+        textures: &HashMap<TexturesMap, Result<Texture<'_>, String>>,
+    ) -> Result<(), Errors>;
     fn set_state(&mut self, state: PlayerState) -> Result<(), Errors>;
     fn update(&mut self) -> Result<(), Errors>;
 }
@@ -32,15 +40,7 @@ pub struct Sprite {
 }
 
 #[derive(PartialEq, Eq, Hash, Clone)]
-pub enum TexturesMap{
+pub enum TexturesMap {
     Background,
-    Player
+    Player,
 }
-
-
-pub fn change_sprite(size_x: u32, size_y: u32, amount_x: i32, amount_y: i32, sprite_index: i32) -> Rect{
-
-    Rect::new(0 * sprite_index, 0 * sprite_index, size_x, size_y)
-}
-
-

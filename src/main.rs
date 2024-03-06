@@ -3,19 +3,23 @@ extern crate sdl2;
 mod entityes;
 mod utils;
 
-use sdl2::{event::Event, image::LoadTexture, keyboard::Keycode, pixels::Color, rect::Rect, render::Texture};
-use std::{collections::HashMap, time::{Duration, Instant}};
-use utils::{Entity, TexturesMap};
-use entityes::player::Player;
 use crate::entityes::player::PlayerState;
-
+use entityes::{fishing::Fishing, player::Player};
+use sdl2::{
+    event::Event, image::LoadTexture, keyboard::Keycode, pixels::Color, rect::Rect, render::Texture,
+};
+use std::{
+    collections::HashMap,
+    time::{Duration, Instant},
+};
+use utils::{Entity, TexturesMap};
 
 fn main() {
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
 
     let window = video_subsystem
-        .window("Fistude", 160*3, 144*3)
+        .window("Fistude", 160 * 3, 144 * 3)
         .position_centered()
         .fullscreen_desktop()
         .opengl()
@@ -35,11 +39,21 @@ fn main() {
 
     let renderer = canvas.texture_creator();
     let mut texture_map: HashMap<TexturesMap, Result<Texture<'_>, String>> = HashMap::new();
-    texture_map.insert(TexturesMap::Background, Ok(renderer.load_texture("assets/background.bmp").expect("erro")));
-    texture_map.insert(TexturesMap::Player, Ok(renderer.load_texture("assets/player.bmp").expect("erro")));
+    texture_map.insert(
+        TexturesMap::Background,
+        Ok(renderer
+            .load_texture("assets/background.bmp")
+            .expect("erro")),
+    );
+    texture_map.insert(
+        TexturesMap::Player,
+        Ok(renderer.load_texture("assets/player.bmp").expect("erro")),
+    );
 
     let mut player = Player::new(0, 24);
     player.vel = 1;
+
+    let mut fishing = Fishing::new(10, 10);
 
     canvas.clear();
     canvas.present();
@@ -61,7 +75,7 @@ fn main() {
         canvas
             .copy(
                 &texture.unwrap(),
-                Rect::new(0,0,160,144),
+                Rect::new(0, 0, 160, 144),
                 Rect::new(0, 0, 160, 144),
             )
             .unwrap();
@@ -109,7 +123,7 @@ fn main() {
             fps_counter = 0;
             last_fps_update = Instant::now();
         }
-        render_entityes!(canvas, texture_map, player);
+        render_entityes!(canvas, texture_map, player, fishing);
 
         let elapsed_time = delta_time_start.elapsed();
         if elapsed_time < frame_duration {

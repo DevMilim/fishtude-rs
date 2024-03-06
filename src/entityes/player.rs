@@ -5,13 +5,13 @@ use std::{
 
 use engine::core::errors::Errors;
 use sdl2::{
-    image::LoadTexture,
     rect::Rect,
     render::{Canvas, Texture},
-    EventPump,
 };
 
-use crate::utils::{Entity, Position, Sprite, TexturesMap};
+use crate::utils::{Entity, Position, TexturesMap};
+
+use super::fishing::Fishing;
 
 pub enum PlayerState {
     Default,
@@ -31,6 +31,7 @@ pub struct Player {
     frames: Option<Vec<Rect>>,
     frame_index: u8,
     timer: Instant,
+    rod: Option<Fishing>,
 }
 
 impl Entity for Player {
@@ -51,6 +52,7 @@ impl Entity for Player {
             vel: 0,
             flip: false,
             timer: Instant::now(),
+            rod: None,
         }
     }
 
@@ -84,11 +86,13 @@ impl Entity for Player {
         Ok(())
     }
     fn update(&mut self) -> Result<(), Errors> {
-        let animation_framerate = (1000.0/4.0) as u64;
+        
+        let animation_framerate = (1000.0 / 4.0) as u64;
         match self.state {
+            PlayerState::Fishing => {}
             PlayerState::Default => {
                 let elapsed = self.timer.elapsed();
-                if elapsed >= Duration::from_millis(1000/8) {
+                if elapsed >= Duration::from_millis(1000 / 8) {
                     self.frame_index += 1;
                     self.timer = Instant::now();
                     if self.frame_index == 5 {
@@ -97,7 +101,6 @@ impl Entity for Player {
                 }
             }
             PlayerState::Mechanic => {}
-            PlayerState::Fishing => {}
             PlayerState::Back => {}
             PlayerState::MoveLeft => {
                 if self.frame_index <= 3 {
