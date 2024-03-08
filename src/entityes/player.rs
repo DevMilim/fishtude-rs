@@ -9,7 +9,7 @@ use sdl2::{
     render::{Canvas, Texture},
 };
 
-use crate::utils::{Position, TexturesMap};
+use crate::utils::TexturesMap;
 
 use super::fishing::Fishing;
 
@@ -24,9 +24,9 @@ pub enum PlayerState {
 
 pub struct Player {
     pub state: PlayerState,
-    pub position: Position,
+    pub x: i32,
+    pub y: i32,
     pub vel: i32,
-    gold: i32,
     flip: bool,
     frames: Option<Vec<Rect>>,
     frame_index: u8,
@@ -38,8 +38,8 @@ impl Player {
     pub fn new(x: i32, y: i32) -> Self {
         Player {
             state: PlayerState::Default,
-            gold: 14,
-            position: Position { x: x, y: y },
+            x,
+            y,
             frames: Some(vec![
                 Rect::new(0, 0, 16, 16),
                 Rect::new(16, 0, 16, 16),
@@ -62,10 +62,7 @@ impl Player {
         textures: &HashMap<TexturesMap, Result<Texture<'_>, String>>,
     ) -> Result<(), Errors> {
         let texture = textures.get(&TexturesMap::Player).unwrap().as_ref();
-        let src_dist = [
-            Rect::new(0, 0, 16, 16),
-            Rect::new(self.position.x, self.position.y, 16, 16),
-        ];
+        let src_dist = [Rect::new(0, 0, 16, 16), Rect::new(self.x, self.y, 16, 16)];
         canvas
             .copy_ex(
                 &texture.unwrap(),
@@ -86,7 +83,6 @@ impl Player {
         Ok(())
     }
     pub fn update(&mut self) -> Result<(), Errors> {
-        
         let animation_framerate = (1000.0 / 4.0) as u64;
         match self.state {
             PlayerState::Fishing => {}
@@ -106,7 +102,7 @@ impl Player {
                 if self.frame_index <= 3 {
                     self.frame_index = 4;
                 }
-                self.position.x -= self.vel;
+                self.x -= self.vel;
                 self.flip = true;
                 let elapsed = self.timer.elapsed();
                 if elapsed >= Duration::from_millis(animation_framerate) {
@@ -121,7 +117,7 @@ impl Player {
                 if self.frame_index <= 3 {
                     self.frame_index = 4;
                 }
-                self.position.x += self.vel;
+                self.x += self.vel;
                 self.flip = false;
                 let elapsed = self.timer.elapsed();
                 if elapsed >= Duration::from_millis(animation_framerate) {

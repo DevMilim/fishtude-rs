@@ -25,6 +25,7 @@ fn main() {
         .opengl()
         .build()
         .unwrap();
+
     let mut canvas = window
         .into_canvas()
         .accelerated()
@@ -148,6 +149,7 @@ fn main() {
                 _ => {}
             }
         }
+        
         fps_counter += 1;
         let elapsed = last_fps_update.elapsed();
         if elapsed >= Duration::from_secs(1) {
@@ -155,7 +157,9 @@ fn main() {
             fps_counter = 0;
             last_fps_update = Instant::now();
         }
-        render_entityes!(canvas, texture_map, player, fishing);
+
+        let _ = player.render(&mut canvas, &texture_map);
+        let _ = player.update();
 
         let elapsed_time = delta_time_start.elapsed();
         if elapsed_time < frame_duration {
