@@ -12,7 +12,7 @@ use std::{
     collections::HashMap,
     time::{Duration, Instant},
 };
-use utils::{Entity, TexturesMap};
+use utils::TexturesMap;
 
 fn main() {
     let sdl_context = sdl2::init().unwrap();
@@ -35,7 +35,7 @@ fn main() {
     let _ = canvas.set_logical_size(160, 144);
     canvas.set_integer_scale(true).unwrap();
     canvas.set_blend_mode(sdl2::render::BlendMode::Blend);
-    canvas.set_draw_color(Color::RGB(255, 255, 255));
+    canvas.set_draw_color(Color::RGB(0, 0, 0));
 
     let renderer = canvas.texture_creator();
     let mut texture_map: HashMap<TexturesMap, Result<Texture<'_>, String>> = HashMap::new();
@@ -46,14 +46,46 @@ fn main() {
             .expect("erro")),
     );
     texture_map.insert(
+        TexturesMap::Clouds,
+        Ok(renderer.load_texture("assets/player.bmp").expect("erro")),
+    );
+    texture_map.insert(
+        TexturesMap::Coin,
+        Ok(renderer.load_texture("assets/player.bmp").expect("erro")),
+    );
+    texture_map.insert(
+        TexturesMap::Fish,
+        Ok(renderer.load_texture("assets/player.bmp").expect("erro")),
+    );
+    texture_map.insert(
+        TexturesMap::FishingMechanic,
+        Ok(renderer.load_texture("assets/player.bmp").expect("erro")),
+    );
+    texture_map.insert(
+        TexturesMap::FishingPointer,
+        Ok(renderer.load_texture("assets/player.bmp").expect("erro")),
+    );
+    texture_map.insert(
+        TexturesMap::Font,
+        Ok(renderer.load_texture("assets/player.bmp").expect("erro")),
+    );
+    texture_map.insert(
+        TexturesMap::Number,
+        Ok(renderer.load_texture("assets/player.bmp").expect("erro")),
+    );
+    texture_map.insert(
         TexturesMap::Player,
+        Ok(renderer.load_texture("assets/player.bmp").expect("erro")),
+    );
+    texture_map.insert(
+        TexturesMap::UiX,
         Ok(renderer.load_texture("assets/player.bmp").expect("erro")),
     );
 
     let mut player = Player::new(0, 24);
     player.vel = 1;
 
-    let mut fishing = Fishing::new(10, 10);
+    let mut fishing = Fishing::new(40, 40);
 
     canvas.clear();
     canvas.present();

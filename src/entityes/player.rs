@@ -9,7 +9,7 @@ use sdl2::{
     render::{Canvas, Texture},
 };
 
-use crate::utils::{Entity, Position, TexturesMap};
+use crate::utils::{Position, TexturesMap};
 
 use super::fishing::Fishing;
 
@@ -34,8 +34,8 @@ pub struct Player {
     rod: Option<Fishing>,
 }
 
-impl Entity for Player {
-    fn new(x: i32, y: i32) -> Self {
+impl Player {
+    pub fn new(x: i32, y: i32) -> Self {
         Player {
             state: PlayerState::Default,
             gold: 14,
@@ -56,7 +56,7 @@ impl Entity for Player {
         }
     }
 
-    fn render(
+    pub fn render(
         &mut self,
         canvas: &mut Canvas<sdl2::video::Window>,
         textures: &HashMap<TexturesMap, Result<Texture<'_>, String>>,
@@ -81,11 +81,11 @@ impl Entity for Player {
         Ok(())
     }
 
-    fn set_state(&mut self, state: PlayerState) -> Result<(), Errors> {
+    pub fn set_state(&mut self, state: PlayerState) -> Result<(), Errors> {
         self.state = state;
         Ok(())
     }
-    fn update(&mut self) -> Result<(), Errors> {
+    pub fn update(&mut self) -> Result<(), Errors> {
         
         let animation_framerate = (1000.0 / 4.0) as u64;
         match self.state {

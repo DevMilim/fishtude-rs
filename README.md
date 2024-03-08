@@ -4,7 +4,7 @@
 
 ## Development
 
-- [x] Player
+- [ ] Player
     - [x] Movement
     - [ ] Fishing
     - [ ] Gold
